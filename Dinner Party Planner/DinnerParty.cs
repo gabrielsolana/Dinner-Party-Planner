@@ -5,37 +5,46 @@ namespace Dinner_Party_Planner
     public class DinnerParty
     {
         public int NumberOfPeople { get; set; }
-        public decimal CostOfBeveragePerPerson { get; set; }
-        public decimal CostOfDecorations { get; set; }
-        
+        public bool FancyDecoration { get; set; }
+        public bool HealthyOption { get; set; }
+
+        public decimal Cost
+        {
+            get
+            {
+                return CalculateCost();
+            }
+        }
+
         public const decimal CostOfFoodPerPerson = 25M;
 
-        public void SetHealthyOption(bool healthy)
+        public DinnerParty(int numberOfPeople, bool fancyDecoration, bool healthyOption)
         {
-           if (healthy)
-                CostOfBeveragePerPerson = 5M;
-            else
-                CostOfBeveragePerPerson = 20M;
+            NumberOfPeople = numberOfPeople;
+            FancyDecoration = fancyDecoration;
+            HealthyOption = healthyOption;
         }
 
-        public void CalculateCostOfDecorations(bool fancy)
+        public decimal CalculateCostOfBeveragesPePerson()
         {
-            if (fancy)
-                CostOfDecorations = 15M * NumberOfPeople + 50M;
-            else
-                CostOfDecorations = 7.5M * NumberOfPeople + 30M;
+            return HealthyOption ? 5M : 20M;
         }
 
-        public decimal CalculateCost(bool healthy)
+        public decimal CalculateCostOfDecorations()
+        {
+            return FancyDecoration ? 15M * NumberOfPeople + 50M : 7.5M * NumberOfPeople + 30M;
+        }
+
+        private decimal CalculateCost()
         {
             var totalCost = 0M;
 
             totalCost += NumberOfPeople * CostOfFoodPerPerson;
-            totalCost += NumberOfPeople * CostOfBeveragePerPerson;
-            totalCost += CostOfDecorations;
-            if (healthy)
+            totalCost += NumberOfPeople * CalculateCostOfBeveragesPePerson();
+            totalCost += CalculateCostOfDecorations();
+            if (HealthyOption)
                 totalCost = 0.95M * totalCost;
-            
+
             return totalCost;
         }
     }

@@ -18,23 +18,17 @@ namespace Dinner_Party_Planner
         {
             InitializeComponent();
 
-            dinnerParty = new DinnerParty() {NumberOfPeople = 5};
-            dinnerParty.SetHealthyOption(false);
-            dinnerParty.CalculateCostOfDecorations(true);
+            dinnerParty = new DinnerParty(5, true, false);
             DisplayDinnerPartyCost();
-
         }
 
         private void DisplayDinnerPartyCost()
         {
-            decimal Cost = dinnerParty.CalculateCost(healthyCheckBox.Checked);
+            decimal Cost = dinnerParty.Cost;
             costLabel.Text = Cost.ToString("c");
-
         }
 
-        private void Form_Load(object sender, EventArgs e)
-        {
-        }
+        private void Form_Load(object sender, EventArgs e) {}
 
         private void numberOfPeopleNumericUD_ValueChanged(object sender, EventArgs e)
         {
@@ -44,13 +38,13 @@ namespace Dinner_Party_Planner
 
         private void fancyCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            dinnerParty.CalculateCostOfDecorations(fancyCheckBox.Checked);
+            dinnerParty.FancyDecoration = fancyCheckBox.Checked;
             DisplayDinnerPartyCost();
         }
 
         private void healthyCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            dinnerParty.SetHealthyOption(healthyCheckBox.Checked);
+            dinnerParty.HealthyOption = healthyCheckBox.Checked;
             DisplayDinnerPartyCost();
         }
     }
